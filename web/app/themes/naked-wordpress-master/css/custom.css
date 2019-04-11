@@ -1,0 +1,16 @@
+.image.attachment:hover .delete.check {
+   background-position: -60px 0;
+   display: block;
+}
+
+.image .attachement-image {
+	width: 100% !important; 
+	height:100% !important; 
+	background-size: cover !important;
+}
+
+.gallery_images.ui-sortable::after, .gallery_images.ui-sortable::before {
+   clear: both;
+   content: "";
+   display: block;
+}
