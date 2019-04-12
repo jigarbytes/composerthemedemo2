@@ -1,6 +1,5 @@
 <?php
-
-$books = new MyNameSpace\custom\cpt('books');
+$books = new custom_post_type\cpt('books');
 
 // create a genre taxonomy
 $books->register_taxonomy('genre');

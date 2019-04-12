@@ -1,6 +1,6 @@
 <?php
 
-namespace MyNameSpace\custom;
+namespace custom_post_type;
 /**
  * Custom Post Type Class
  *

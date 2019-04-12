@@ -67,7 +67,7 @@
 
    "autoload": {
         "psr-4": {
-            "ourcodeworld\\HelloComposer\\": "src/"
+            "custom_post_type\\": "src/"
         }
     }
 	
