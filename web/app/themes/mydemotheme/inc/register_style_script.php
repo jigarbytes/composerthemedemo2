@@ -12,6 +12,7 @@ function register_scripts() {
 	
 	wp_enqueue_style( 'bootstrap-style', get_stylesheet_directory_uri().'/node_modules/bootstrap/dist/css/bootstrap'.$minify.'.css', array(), wp_get_theme()->get( 'Version' ) );
 	
+	
 	wp_enqueue_style( 'custom-style', get_stylesheet_directory_uri().'/assets/css/style'.$minify.'.css', array(), wp_get_theme()->get( 'Version' ) );
 	
 	wp_enqueue_script('custom_script', get_template_directory_uri() . '/assets/js/custom'.$minify.'.js', array(), wp_get_theme()->get( 'Version' ), true );
