@@ -1,5 +1,16 @@
 <?php
-   define( 'NAKED_VERSION', 1.0 );
+
+
+//use ourcodeworld\HelloComposer\Hello;
+
+
+
+/* $instance = new Hello();
+
+print_r(get_class_methods($instance)); */
+
+
+define( 'NAKED_VERSION', 1.0 );
 
 if ( ! isset( $content_width ) ) $content_width = 900;
 
