@@ -1,5 +1,12 @@
 <?php
+
+//echo WP_ENV; die();
+
+
 $books = new custom_post_type\cpt('books');
+
+
+require_once('register_style_script.php');
 
 // create a genre taxonomy
 $books->register_taxonomy('genre');
@@ -15,30 +22,6 @@ $books->columns(array(
     'date' => __('Date')
 ));
 
-
-// populate the price column
-$books->populate_column('price', function($column, $post) {
-
-    echo "£" . get_field('price'); // ACF get_field() function
-
-}); 
-
-
-// populate the ratings column
-$books->populate_column('rating', function($column, $post) {
-
-    echo get_field('rating') . '/5'; // ACF get_field() function
-
-});
-
-
-// make rating and price columns sortable
-$books->sortable(array(
-    'price' => array('price', true),
-    'rating' => array('rating', true)
-));
-
-
 // use "pages" icon for post type
 $books->menu_icon("dashicons-book-alt");
   //die('here');  
@@ -51,7 +34,6 @@ $books->menu_icon("dashicons-book-alt");
  * @subpackage Twenty_Nineteen
  * @since 1.0.0
  */
-
 /**
  * Twenty Nineteen only works in WordPress 4.7 or later.
  */
