@@ -126,11 +126,7 @@
       "resolved": "https://registry.npmjs.org/block-stream/-/block-stream-0.0.9.tgz",
       "version": "0.0.9"
     },
-    "bootstrap": {
-      "integrity": "sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==",
-      "resolved": "https://registry.npmjs.org/bootstrap/-/bootstrap-4.3.1.tgz",
-      "version": "4.3.1"
-    },
+    "bootstrap": "^4.3.1",
     "brace-expansion": {
       "integrity": "sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==",
       "requires": {
@@ -1594,6 +1590,7 @@
   "devDependencies": {
     "connect-livereload": "^0.6.1",
     "grunt": "^1.0.4",
-    "grunt-contrib-jshint": "^2.1.0"
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-serve": "^0.1.6"
   }
 }

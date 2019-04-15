@@ -1,47 +1,68 @@
 <?php
-/**
- * The main template file
- *
- * This is the most generic template file in a WordPress theme
- * and one of the two required files for a theme (the other being style.css).
- * It is used to display a page when nothing more specific matches a query.
- * E.g., it puts together the home page when no home.php file exists.
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package WordPress
- * @subpackage Twenty_Nineteen
- * @since 1.0.0
- */
-
-get_header();
+	get_header();
 ?>
+  <!-- Page Content -->
+  	<div class="container">
+    	<div class="row">
 
-	<section id="primary" class="content-area">
-		<main id="main" class="site-main">
+      <!-- Blog Entries Column -->
+      <div class="col-md-8">
 
-		<?php
-		if ( have_posts() ) {
+        	<h1 class="my-4"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 
-			// Load posts loop.
-			while ( have_posts() ) {
-				the_post();
-				get_template_part( 'template-parts/content/content' );
-			}
+        	<!-- Blog Post -->
+        	<?php 
+        		if ( have_posts() ) : 
+					while ( have_posts() ) : the_post(); ?>
+						<div class="card mb-4">
+				         <?php the_post_thumbnail( array( 750, 300 ) ); ?>
+				         <div class="card-body">
+   				         <h2 class="card-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+            					<p class="card-text"><?php the_content(); ?></p>
+            					<a href="<?php the_permalink(); ?>" class="btn btn-primary">Read More &rarr;</a>
+          				</div>
+          				
+          				<div class="card-footer text-muted">
+            				Posted on <?php the_time('M d, Y'); ?> by
+            				<a href="#"><?php the_author(); ?></a>
+          				</div>
+        				</div>
+					<?php 
+					endwhile;
+				endif;
+			?>
+       
 
-			// Previous/next page navigation.
-			twentynineteen_the_posts_navigation();
+        <!-- Pagination -->
+        	<ul class="pagination justify-content-center mb-4">
+          	<li class="page-item past-page page-link"><?php previous_posts_link( 'newer' ); ?></li>
+				<li class="page-item next-page page-link"><?php next_posts_link( 'older' ); ?></li>
+        	</ul>
 
-		} else {
+        	<!-- <ul class="pagination justify-content-center mb-4">
+          <li class="page-item">
+            <a class="page-link" href="#">&larr; Older</a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="#">Newer &rarr;</a>
+          </li>
+        </ul> -->
 
-			// If no content, include the "No posts found" template.
-			get_template_part( 'template-parts/content/content', 'none' );
+      </div>
 
-		}
-		?>
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4 sidebar-widget" style="margin-top: 4%;">
+      	<?php 
+      		if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
+					<ul id="sidebar">
+						<?php dynamic_sidebar( 'sidebar-1' ); ?>
+					</ul>
+					<?php 
+				endif; 
+			?>
+      </div>
 
-		</main><!-- .site-main -->
-	</section><!-- .content-area -->
+    	</div> <!-- /.row -->
+  	</div> <!-- /.container -->
 
-<?php
-get_footer();
+<?php get_footer(); ?>

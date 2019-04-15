@@ -1,0 +1,34 @@
+.image.attachment:hover .delete.check {
+   background-position: -60px 0;
+   display: block;
+}
+
+.image .attachement-image {
+	width: 100% !important; 
+	height:100% !important; 
+	background-size: cover !important;
+}
+
+.gallery_images.ui-sortable::after, .gallery_images.ui-sortable::before {
+   clear: both;
+   content: "";
+   display: block;
+}
+
+.widget.widget_recent_entries,.widget.widget_recent_comments,.widget.widget_archive,.widget.widget_categories,.widget.widget_meta {border: 1px solid #000;margin-bottom: 10px;padding: 10px;}input.search-field {
+    float: left;
+    width: 100%;
+    margin: 10px 0;
+    border: 1px solid #000;
+    padding: 5px;
+}
+.widget.widget_recent_entries ul,.widget.widget_recent_comments ul,.widget.widget_archive ul,.widget.widget_categories ul,.widget.widget_meta ul {padding-left: 30px;}
+.widget.widget_recent_entries ul li,.widget.widget_recent_comments ul li,.widget.widget_archive ul li,.widget.widget_categories ul li,.widget.widget_meta ul li {
+    padding-bottom: 10px;
+}
+.widget.widget_recent_entries ul li a,.,.widget.widget_recent_comments ul li a,.widget.widget_archive ul li a,.widget.widget_categories ul li a,.widget.widget_meta ul li a {columns: #000;}
+
+
+body{
+	margin-top: 2%;
+}

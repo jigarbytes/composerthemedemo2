@@ -1,54 +1,37 @@
 <?php
-/**
- * The template for displaying archive pages
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package WordPress
- * @subpackage Twenty_Nineteen
- * @since 1.0.0
- */
-
-get_header();
+	get_header();
+	
+	die('here');
 ?>
+  <!-- Page Content -->
+  	<div class="container">
+    	<div class="row">
 
-	<section id="primary" class="content-area">
-		<main id="main" class="site-main">
+      <!-- Blog Entries Column -->
+      <div class="col-md-12">
 
-		<?php if ( have_posts() ) : ?>
+        	<h1 class="my-4"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 
-			<header class="page-header">
-				<?php
-					the_archive_title( '<h1 class="page-title">', '</h1>' );
-				?>
-			</header><!-- .page-header -->
+        	<!-- Blog Post -->
+        	<?php 
+        		if ( have_posts() ) : 
+					while ( have_posts() ) : the_post(); ?>
+						<div class="card mb-4">
+				         <?php the_post_thumbnail( array( 750, 300 ) ); ?>
+				         <div class="card-body">
+   				         <h2 class="card-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+            				By, <a href="#"><?php the_author(); ?></a>
+            				<p class="card-text"><?php the_content(); ?></p>
+          				</div>
+        				</div>
+					<?php 
+					endwhile;
+				endif;
+			?>
+      </div>
+    </div>
+    <!-- /.row -->
 
-			<?php
-			// Start the Loop.
-			while ( have_posts() ) :
-				the_post();
-
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content/content', 'excerpt' );
-
-				// End the loop.
-			endwhile;
-
-			// Previous/next page navigation.
-			twentynineteen_the_posts_navigation();
-
-			// If no content, include the "No posts found" template.
-		else :
-			get_template_part( 'template-parts/content/content', 'none' );
-
-		endif;
-		?>
-		</main><!-- #main -->
-	</section><!-- #primary -->
-
-<?php
-get_footer();
+  </div>
+  <!-- /.container -->
+<?php get_footer(); ?>

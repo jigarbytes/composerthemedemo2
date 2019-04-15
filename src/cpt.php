@@ -111,6 +111,11 @@ class cpt {
      */
     public $textdomain = 'cpt';
 
+	public $capability_type;
+	
+	
+	public $map_meta_cap;
+	
     /**
      * Constructor
      *
@@ -417,9 +422,13 @@ class cpt {
         $defaults = array(
             'labels' => $labels,
             'public' => true,
+			'has_archive'   => true, 
             'rewrite' => array(
                 'slug' => $slug,
-            )
+            ),
+			'capability_type'     => $this->capability_type,
+            'map_meta_cap'        => $this->map_meta_cap,
+			
         );
 
         // Merge user submitted options with defaults.
@@ -519,6 +528,7 @@ class cpt {
         $defaults = array(
             'labels' => $labels,
             'hierarchical' => true,
+			'public' => true,
             'rewrite' => array(
                 'slug' => $slug
             )
