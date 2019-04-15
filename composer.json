@@ -6,15 +6,23 @@
   "homepage": "https://roots.io/bedrock/",
   "authors": [
     {
-      "name": "Bytes",
-      "email": "info@bytestechnolab.com",
-      "homepage": "http://bytestechnolab.com"
+      "name": "Scott Walkinshaw",
+      "email": "scott.walkinshaw@gmail.com",
+      "homepage": "https://github.com/swalkinshaw"
     },
-
+    {
+      "name": "Ben Word",
+      "email": "ben@benword.com",
+      "homepage": "https://github.com/retlehs"
+    }
   ],
-   "keywords": [
+  "keywords": [
     "bedrock", "roots", "wordpress", "stack", "composer", "vagrant", "wp"
   ],
+  "support": {
+    "issues": "https://github.com/roots/bedrock/issues",
+    "forum": "https://discourse.roots.io/category/bedrock"
+  },
   "config": {
     "preferred-install": "dist"
   },
