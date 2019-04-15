@@ -15,6 +15,5 @@
   - For theme option (as per your suggestion "Option Tree plugin" but this plugin was closed on November 6, 2018, and is no longer available for download. Reason: Security Issue more info(https://wordpress.org/plugins/option-tree/). So we are using redux framework for WordPress theme option)..
   - Import theme option using redux import section Admin left side menu -> Theme option -> Import section using this root directory "redux_options_redux_demo_backup_15-04-2019.json"
   -  Import theme demo please used this file root directory "composerthemedemo2.WordPress.2019-04-15.xml"
-  - Create new user for n user gallery upload project manager(role)
-  - 
-  
+  - Create new user for n user gallery upload user role is  "Project manager"
+ 
