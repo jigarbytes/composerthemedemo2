@@ -20,23 +20,26 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
 	  
-	  
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
+		<?php if ( has_nav_menu( 'menu-1' ) ) : 
+			function add_classes_on_li($classes, $item, $args) {
+			  $classes[] = 'nav-item';
+			  return $classes;
+			}
+			add_filter( 'nav_menu_link_attributes', 'wpse156165_menu_add_class', 10, 3 );
+			function wpse156165_menu_add_class( $atts, $item, $args ) {
+				$class = 'nav-link'; // or something based on $item
+				$atts['class'] = $class;
+				return $atts;
+			}
+			add_filter('nav_menu_css_class','add_classes_on_li',1,3); 
+			
+			 wp_nav_menu( array( 'theme_location' => 'menu-1',
+				'container'       => false, 
+				'items_wrap'=>'<ul class="navbar-nav ml-auto">%3$s</ul>'
+				
+			 ) );
+	
+		 endif; ?>
       </div>
     </div>
   </nav>

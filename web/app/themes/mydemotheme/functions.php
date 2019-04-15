@@ -1,9 +1,8 @@
 <?php
-
+$options = array('supports'=> array('thumbnail'));
 //echo WP_ENV; die();
-$gallery = new custom_post_type\cpt('gallery');
-$gallery->capability_type =  array('psp_project',$gallery->post_type_name);
-$gallery->map_meta_cap =  true;
+$gallery = new custom_post_type\cpt('gallery',$options);
+
 //require_once('register_style_script.php');
 $gallery->capability_type =  array('psp_project',$gallery->post_type_name);
 $gallery->map_meta_cap =  true;

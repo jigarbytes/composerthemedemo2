@@ -4,4 +4,8 @@ body {
   padding-top: 56px;
 }
 
+#navbarResponsive ul li.current_page_item a.nav-link {
+  color: #fff;
+}
+
 /*# sourceMappingURL=style.css.map */

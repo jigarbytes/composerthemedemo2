@@ -1,9 +1,16 @@
 $font-stack:    Helvetica, sans-serif;
 $primary-color: #333;
+$active_color : #fff;
+
 
 body {
   font: 100% $font-stack;
   color: $primary-color;
   padding-top: 56px;
 }
+
+#navbarResponsive ul li.current_page_item a.nav-link{
+	color:$active_color;
+}
+
 
