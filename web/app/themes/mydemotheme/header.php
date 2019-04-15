@@ -6,8 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="profile" href="https://gmpg.org/xfn/11" />
 	<?php 
-      $favicon_log_src = $redux_demo['media-no-url']['url'];
-      if (!empty($favicon_log_src)) { ?>
+      if(array_key_exists('media-no-url',$redux_demo)){
+			$favicon_log_src = $redux_demo['media-no-url']['url'];
+	?>
         <link rel="shortcut icon" href="<?php echo $favicon_log_src; ?>"/>
       <?php 
       }
