@@ -772,6 +772,7 @@
       "resolved": "https://registry.npmjs.org/lcid/-/lcid-1.0.0.tgz",
       "version": "1.0.0"
     },
+    "lightbox2": "^2.10.0",
     "load-json-file": {
       "integrity": "sha1-lWkFcI1YtLq0wiYbBPWfMcmTdMA=",
       "requires": {
@@ -901,6 +902,7 @@
       "resolved": "https://registry.npmjs.org/nan/-/nan-2.13.2.tgz",
       "version": "2.13.2"
     },
+    "ngx-lightbox": "^1.2.0",
     "node-gyp": {
       "dependencies": {
         "semver": {
@@ -1591,6 +1593,9 @@
     "connect-livereload": "^0.6.1",
     "grunt": "^1.0.4",
     "grunt-contrib-jshint": "^2.1.0",
-    "grunt-serve": "^0.1.6"
+    "grunt-exec": "^3.0.0",
+    "grunt-po2mo": "^0.1.2",
+    "grunt-serve": "^0.1.6",
+    "grunt-wp-i18n": "^1.0.3"
   }
 }

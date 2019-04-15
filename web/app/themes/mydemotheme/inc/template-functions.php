@@ -142,6 +142,8 @@
 endif;
 add_action( 'after_setup_theme', 'wpdemo_setup' );
 
+
+
 /**
  * Register widget area.
  *
@@ -151,20 +153,8 @@ function wpdemo_widgets_init() {
 
 	register_sidebar(
 		array(
-			'name'          => __( 'Sidebar', 'demowp' ),
-			'id'            => 'sidebar-1',
-			'description'   => __( 'Add widgets here to appear in your site.', 'demowp' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
-		)
-	);
-
-	register_sidebar(
-		array(
 			'name'          => __( 'Footer', 'demowp' ),
-			'id'            => 'sidebar-2',
+			'id'            => 'sidebar-1',
 			'description'   => __( 'Add widgets here to appear in your footer.', 'demowp' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
