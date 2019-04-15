@@ -1,40 +1,42 @@
 <?php
-	get_header();
+	get_header(); 
 ?>
   <!-- Page Content -->
   	<div class="container">
     	<div class="row">
-
-      <!-- Blog Entries Column -->
-      <div class="col-md-12">
-
-        	<h1 class="my-4"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-
-        	<!-- Blog Post -->
+			
+			<div class="col-md-12">
         	<?php 
         		if ( have_posts() ) : 
 					while ( have_posts() ) : the_post(); ?>
 						<div class="card mb-4">
-				         <?php the_post_thumbnail( array( 750, 300 ) ); ?>
 				         <div class="card-body">
-   				         <h2 class="card-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-            				By, <a href="#"><?php the_author(); ?></a>
-            				<p class="card-text"><?php the_content(); ?></p>
+						 <div class="text-center">
+   				         <h2 itemprop="name" class="card-title"><a itemprop="url"  href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+						 </div>
                     <?php 
                       $image_gallery = get_post_meta( $post->ID, '_kad_image_gallery', true );
                       $attachments = array_filter( explode( ',', $image_gallery ) );
-                      if ( $attachments )
-                      foreach ( $attachments as $attachment_id ) {
-                          $image_attributes = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
-                          echo '<li class="image attachment details" data-attachment_id="' . $attachment_id . '"><div class="attachment-preview"><div class="thumbnail">'.'<img class="attachement-image" src="'.$image_attributes[0].'"/></div>
-                                  <a href="#" class="delete check" title="' . esc_attr__( 'Remove image', 'naked' ) . '"><div class="media-modal-icon"></div></a>
-                                  </div>
-                               </li>';
-                      }
+                      if ( $attachments ) ?>
+                     <div class="row">
+                        <?php
+                        foreach ( $attachments as $attachment_id ) {
+                          $image_attributes = wp_get_attachment_image_src( $attachment_id, 'thumbnail' ); 
+                          $image_attributes_full = wp_get_attachment_image_src( $attachment_id, 'full' );
+                          ?>
+						   <div class="col-lg-3 col-md-4 col-xs-6 thumb mb-4 text-center" itemprop="image">
+								<a class="thumbnail" href="<?php echo $image_attributes_full[0]; ?>"  data-lightbox="gallery-1" id="<?php echo $attachment_id; ?>"  data-image-id="" data-toggle="modal" data-title="">
+									<img itemprop="image" class="img-thumbnail" src="<?php echo $image_attributes[0]; ?>" alt="<?php echo $attachment_id; ?>">
+								</a>
+							</div>
+
+                        <?php
+                        }
                     ?>
-          				</div>
-        				</div>
-					<?php 
+                 </div> <!-- raw -->
+				</div>
+				</div>
+			<?php 
 					endwhile;
 				endif;
 			?>

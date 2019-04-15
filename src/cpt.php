@@ -530,7 +530,7 @@ class cpt {
 			'public' => true,
             'rewrite' => array(
                 'slug' => $slug
-            )
+            ),
         );
 
         // Merge default options with user submitted options.

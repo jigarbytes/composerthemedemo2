@@ -8,4 +8,15 @@ body {
   color: #fff;
 }
 
+.sidebar-widget-item ul {
+  list-style: none;
+}
+.sidebar-widget-item ul, .sidebar-widget-item p, .sidebar-widget-item input {
+  padding: 15px;
+}
+.sidebar-widget-item .searchform {
+  padding-top: 20px;
+  padding-left: 10px;
+}
+
 /*# sourceMappingURL=style.css.map */

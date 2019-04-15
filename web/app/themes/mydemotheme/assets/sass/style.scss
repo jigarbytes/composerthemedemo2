@@ -13,4 +13,20 @@ body {
 	color:$active_color;
 }
 
+.sidebar-widget-item {
+	ul {
+		list-style:none;
+		}
+	ul,p,input{
+		padding:15px;
+		}	
+	.searchform{
+		padding-top:20px;
+		padding-left:10px;
+	}	
+}
+
+
+
+
 

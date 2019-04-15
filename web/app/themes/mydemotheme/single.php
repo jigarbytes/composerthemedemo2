@@ -8,7 +8,6 @@
       <!-- Blog Entries Column -->
       <div class="col-md-12">
 
-        	<h1 class="my-4"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 
         	<!-- Blog Post -->
         	<?php 

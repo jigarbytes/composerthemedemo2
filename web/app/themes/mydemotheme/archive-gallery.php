@@ -1,47 +1,38 @@
 <?php
-	get_header();
+   get_header();
 ?>
-  <!-- Page Content -->
-  	<div class="container">
-    	<div class="row">
+   <div class="container my-container">
+      <div class="card">  
+         <div class="row card-body">
+         <!-- // start the loop -->
+            <?php
+               if( have_posts() ) :
+                  while (have_posts()) : the_post(); ?>
+                     <div class="col-lg-3 col-md-4 col-xs-6 thumb mb-5 text-center">
+                        <div class="my-inner">
+                           <h2 class="card-title" itemprop="name"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                           <?php 
+                              if ( has_post_thumbnail() ) :
+                                 the_post_thumbnail('thumbnail', ['class' => 'img-responsive responsive--full', 'title' => 'Feature image']);
+                              endif; 
+                           ?>
+                        </div>
+                     </div>  
+                  <div class="clearfix"></div>     
+                  <?php  
+                  endwhile;
+               endif;
+              wp_reset_query();
+            ?>
 
-      <!-- Blog Entries Column -->
-      <div class="col-md-12">
+         </div> <!-- raw -->
+      
+         <!-- Pagination -->
+         <ul class="pagination justify-content-center mb-4">
+            <li class="page-item past-page"><?php previous_posts_link( 'newer' ); ?></li>
+            <li class="page-item next-page"><?php next_posts_link( 'older' ); ?></li>
+         </ul>
 
-        	<h1 class="my-4"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-
-        	<!-- Blog Post -->
-        	<?php 
-        		if ( have_posts() ) : 
-					while ( have_posts() ) : the_post(); ?>
-						<div class="card mb-4">
-				         <!-- <?php the_post_thumbnail( array( 750, 300 ) ); ?> -->
-				         <div class="card-body">
-   				         <h2 class="card-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-            				By, <a href="#"><?php the_author(); ?></a>
-            				<p class="card-text"><?php the_content(); ?></p>
-                    <?php 
-                      $image_gallery = get_post_meta( $post->ID, '_kad_image_gallery', true );
-                      $attachments = array_filter( explode( ',', $image_gallery ) );
-                      if ( $attachments )
-                      foreach ( $attachments as $attachment_id ) {
-                          $image_attributes = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
-                          echo '<li class="image attachment details" data-attachment_id="' . $attachment_id . '"><div class="attachment-preview"><div class="thumbnail">'.'<img class="attachement-image" src="'.$image_attributes[0].'"/></div>
-                                  <a href="#" class="delete check" title="' . esc_attr__( 'Remove image', 'naked' ) . '"><div class="media-modal-icon"></div></a>
-                                  </div>
-                               </li>';
-                      }
-                    ?>
-          				</div>
-        				</div>
-					<?php 
-					endwhile;
-				endif;
-			?>
-      </div>
-    </div>
-    <!-- /.row -->
-
-  </div>
-  <!-- /.container -->
+      </div> <!-- card -->
+   </div><!--/.container-->  
 <?php get_footer(); ?>

@@ -13,8 +13,24 @@
  * @param array $classes Classes for the body element.
  * @return array
  */
+require_once get_template_directory() . '/inc/class-tgm-plugin-activation.php';
  
- 
+
+
+function add_classes_on_li($classes, $item, $args) {
+  $classes[] = 'nav-item';
+  return $classes;
+}
+add_filter( 'nav_menu_link_attributes', 'wpse156165_menu_add_class', 10, 3 );
+function wpse156165_menu_add_class( $atts, $item, $args ) {
+	$class = 'nav-link'; // or something based on $item
+	$atts['class'] = $class;
+	return $atts;
+}
+add_filter('nav_menu_css_class','add_classes_on_li',1,3); 
+			
+			
+			
  if ( ! function_exists( 'wpdemo_setup' ) ) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
@@ -150,16 +166,27 @@ add_action( 'after_setup_theme', 'wpdemo_setup' );
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function wpdemo_widgets_init() {
+	register_sidebar(
+		array(
+			'name'          => __( 'Sidebar', 'demowp' ),
+			'id'            => 'sidebar-1',
+			'description'   => __( 'Add widgets here to appear in your site.', 'demowp' ),
+			'before_widget' => '<div id="%1$s" class="card sidebar-widget-item my-4 %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h5 class="card-header">',
+			'after_title'   => '</h5>',
+		)
+	);
 
 	register_sidebar(
 		array(
 			'name'          => __( 'Footer', 'demowp' ),
-			'id'            => 'sidebar-1',
+			'id'            => 'sidebar-2',
 			'description'   => __( 'Add widgets here to appear in your footer.', 'demowp' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
+			'before_widget' => '<div id="%1$s" class="card sidebar-widget-item my-4 %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h5 class="card-header">',
+			'after_title'   => '</h5>',
 		)
 	);
 
@@ -292,250 +319,137 @@ function demowp_get_avatar_size() {
 	return 60;
 }
 
+
+
+
+
+add_action( 'tgmpa_register', 'wpdemo_register_required_plugins' );
+
 /**
- * Returns true if comment is by author of the post.
+ * Register the required plugins for this theme.
  *
- * @see get_comment_class()
+ * In this example, we register five plugins:
+ * - one included with the TGMPA library
+ * - two from an external source, one from an arbitrary source, one from a GitHub repository
+ * - two from the .org repo, where one demonstrates the use of the `is_callable` argument
+ *
+ * The variables passed to the `tgmpa()` function should be:
+ * - an array of plugin arrays;
+ * - optionally a configuration array.
+ * If you are not changing anything in the configuration array, you can remove the array and remove the
+ * variable from the function call: `tgmpa( $plugins );`.
+ * In that case, the TGMPA default settings will be used.
+ *
+ * This function is hooked into `tgmpa_register`, which is fired on the WP `init` action on priority 10.
  */
-function demowp_is_comment_by_post_author( $comment = null ) {
-	if ( is_object( $comment ) && $comment->user_id > 0 ) {
-		$user = get_userdata( $comment->user_id );
-		$post = get_post( $comment->comment_post_ID );
-		if ( ! empty( $user ) && ! empty( $post ) ) {
-			return $comment->user_id === $post->post_author;
-		}
-	}
-	return false;
-}
+function wpdemo_register_required_plugins() {
+	/*
+	 * Array of plugin arrays. Required keys are name and slug.
+	 * If the source is NOT from the .org repo, then source is also required.
+	 */
+	$plugins = array(
 
-/**
- * Returns information about the current post's discussion, with cache support.
- */
-function demowp_get_discussion_data() {
-	static $discussion, $post_id;
-
-	$current_post_id = get_the_ID();
-	if ( $current_post_id === $post_id ) {
-		return $discussion; /* If we have discussion information for post ID, return cached object */
-	} else {
-		$post_id = $current_post_id;
-	}
-
-	$comments = get_comments(
+		// This is an example of how to include a plugin bundled with a theme.
 		array(
-			'post_id' => $current_post_id,
-			'orderby' => 'comment_date_gmt',
-			'order'   => get_option( 'comment_order', 'asc' ), /* Respect comment order from Settings » Discussion. */
-			'status'  => 'approve',
-			'number'  => 20, /* Only retrieve the last 20 comments, as the end goal is just 6 unique authors */
-		)
+			'name'               => 'Redux Framework', // The plugin name.
+			'slug'               => 'redux-framework', // The plugin slug (typically the folder name).
+			'source'             => get_template_directory() . '/inc/plugins/redux-framework.zip', // The plugin source.
+			'required'           => true, // If false, the plugin is only 'recommended' instead of required.
+			'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+			'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+			'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
+			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
+			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+		),
+
+		
+
+
 	);
 
-	$authors = array();
-	foreach ( $comments as $comment ) {
-		$authors[] = ( (int) $comment->user_id > 0 ) ? (int) $comment->user_id : $comment->comment_author_email;
-	}
+	/*
+	 * Array of configuration settings. Amend each line as needed.
+	 *
+	 * TGMPA will start providing localized text strings soon. If you already have translations of our standard
+	 * strings available, please help us make TGMPA even better by giving us access to these translations or by
+	 * sending in a pull-request with .po file(s) with the translations.
+	 *
+	 * Only uncomment the strings in the config array if you want to customize the strings.
+	 */
+	$config = array(
+		'id'           => 'wpdemo',                 // Unique ID for hashing notices for multiple instances of TGMPA.
+		'default_path' => '',                      // Default absolute path to bundled plugins.
+		'menu'         => 'tgmpa-install-plugins', // Menu slug.
+		'parent_slug'  => 'themes.php',            // Parent menu slug.
+		'capability'   => 'edit_theme_options',    // Capability needed to view plugin install page, should be a capability associated with the parent menu used.
+		'has_notices'  => true,                    // Show admin notices or not.
+		'dismissable'  => true,                    // If false, a user cannot dismiss the nag message.
+		'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
+		'is_automatic' => false,                   // Automatically activate plugins after installation or not.
+		'message'      => '',                      // Message to output right before the plugins table.
 
-	$authors    = array_unique( $authors );
-	$discussion = (object) array(
-		'authors'   => array_slice( $authors, 0, 6 ),           /* Six unique authors commenting on the post. */
-		'responses' => get_comments_number( $current_post_id ), /* Number of responses. */
 	);
 
-	return $discussion;
+	tgmpa( $plugins, $config );
 }
 
 
-
-/**
- * WCAG 2.0 Attributes for Dropdown Menus
- *
- * Adjustments to menu attributes tot support WCAG 2.0 recommendations
- * for flyout and dropdown menus.
- *
- * @ref https://www.w3.org/WAI/tutorials/menus/flyout/
- */
-function demowp_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
-
-	// Add [aria-haspopup] and [aria-expanded] to menu items that have children
-	$item_has_children = in_array( 'menu-item-has-children', $item->classes );
-	if ( $item_has_children ) {
-		$atts['aria-haspopup'] = 'true';
-		$atts['aria-expanded'] = 'false';
-	}
-
-	return $atts;
-}
-add_filter( 'nav_menu_link_attributes', 'demowp_nav_menu_link_attributes', 10, 4 );
-
-/**
- * Add a dropdown icon to top-level menu items.
- *
- * @param string $output Nav menu item start element.
- * @param object $item   Nav menu item.
- * @param int    $depth  Depth.
- * @param object $args   Nav menu args.
- * @return string Nav menu item start element.
- * Add a dropdown icon to top-level menu items
- */
-function demowp_add_dropdown_icons( $output, $item, $depth, $args ) {
-
-	// Only add class to 'top level' items on the 'primary' menu.
-	if ( ! isset( $args->theme_location ) || 'menu-1' !== $args->theme_location ) {
-		return $output;
-	}
-
-	if ( in_array( 'mobile-parent-nav-menu-item', $item->classes, true ) && isset( $item->original_id ) ) {
-		// Inject the keyboard_arrow_left SVG inside the parent nav menu item, and let the item link to the parent item.
-		// @todo Only do this for nested submenus? If on a first-level submenu, then really the link could be "#" since the desire is to remove the target entirely.
-		$link = sprintf(
-			'<button class="menu-item-link-return" tabindex="-1">%s',
-			demowp_get_icon_svg( 'chevron_left', 24 )
-		);
-
-		// replace opening <a> with <button>
-		$output = preg_replace(
-			'/<a\s.*?>/',
-			$link,
-			$output,
-			1 // Limit.
-		);
-
-		// replace closing </a> with </button>
-		$output = preg_replace(
-			'#</a>#i',
-			'</button>',
-			$output,
-			1 // Limit.
-		);
-
-	} elseif ( in_array( 'menu-item-has-children', $item->classes, true ) ) {
-
-		// Add SVG icon to parent items.
-		$icon = demowp_get_icon_svg( 'keyboard_arrow_down', 24 );
-
-		$output .= sprintf(
-			'<button class="submenu-expand" tabindex="-1">%s</button>',
-			$icon
-		);
-	}
-
-	return $output;
-}
-add_filter( 'walker_nav_menu_start_el', 'demowp_add_dropdown_icons', 10, 4 );
-
-/**
- * Create a nav menu item to be displayed on mobile to navigate from submenu back to the parent.
- *
- * This duplicates each parent nav menu item and makes it the first child of itself.
- *
- * @param array  $sorted_menu_items Sorted nav menu items.
- * @param object $args              Nav menu args.
- * @return array Amended nav menu items.
- */
-function demowp_add_mobile_parent_nav_menu_items( $sorted_menu_items, $args ) {
-	static $pseudo_id = 0;
-	if ( ! isset( $args->theme_location ) || 'menu-1' !== $args->theme_location ) {
-		return $sorted_menu_items;
-	}
-
-	$amended_menu_items = array();
-	foreach ( $sorted_menu_items as $nav_menu_item ) {
-		$amended_menu_items[] = $nav_menu_item;
-		if ( in_array( 'menu-item-has-children', $nav_menu_item->classes, true ) ) {
-			$parent_menu_item                   = clone $nav_menu_item;
-			$parent_menu_item->original_id      = $nav_menu_item->ID;
-			$parent_menu_item->ID               = --$pseudo_id;
-			$parent_menu_item->db_id            = $parent_menu_item->ID;
-			$parent_menu_item->object_id        = $parent_menu_item->ID;
-			$parent_menu_item->classes          = array( 'mobile-parent-nav-menu-item' );
-			$parent_menu_item->menu_item_parent = $nav_menu_item->ID;
-
-			$amended_menu_items[] = $parent_menu_item;
+function psp_add_project_management_role() {
+ add_role('psp_project_manager',
+            'Gallery Manager',
+            array(
+                'read' => true,
+                'edit_posts' => false,
+                'delete_posts' => false,
+                'publish_posts' => false,
+                'upload_files' => true,
+            )
+        );
+   }
+add_action('admin_init','psp_add_project_management_role',998);
+add_action('admin_init','psp_add_role_caps',999);
+function psp_add_role_caps() {
+		// Add the roles you'd like to administer the custom post types
+		$roles = array('psp_project_manager','administrator');
+		// Loop through each role and assign capabilities
+		foreach($roles as $the_role) { 
+			 global $role;
+				$role = get_role($the_role);
+	             $role->add_cap( 'read' );
+	             $role->add_cap( 'read_gallery');
+	             $role->add_cap( 'read_private_gallery' );
+	             $role->add_cap( 'edit_gallery' );
+	             $role->add_cap( 'edit_gallery' );
+	             $role->add_cap( 'edit_gallery' );
+	             $role->add_cap( 'edit_published_gallery' );
+	             $role->add_cap( 'publish_gallery' );
+	             $role->add_cap( 'delete_others_gallery' );
+	             $role->add_cap( 'delete_private_gallery' );
+	             $role->add_cap( 'delete_published_gallery' );
 		}
-	}
-
-	return $amended_menu_items;
 }
-add_filter( 'wp_nav_menu_objects', 'demowp_add_mobile_parent_nav_menu_items', 10, 2 );
 
-/**
- * Convert HSL to HEX colors
- */
-function demowp_hsl_hex( $h, $s, $l, $to_hex = true ) {
+function posts_for_current_author($query) {
+    global $pagenow;
+    if( 'edit.php' != $pagenow || !$query->is_admin )
+    return $query;
 
-	$h /= 360;
-	$s /= 100;
-	$l /= 100;
+  global $user_ID;
+  $user = get_user_by('ID',$user_ID);
+ 
+  if( isset($_REQUEST['post_type']) && $_REQUEST['post_type'] == 'gallery' &&  in_array("psp_project_manager",$user->roles) ) {
 
-	$r = $l;
-	$g = $l;
-	$b = $l;
-	$v = ( $l <= 0.5 ) ? ( $l * ( 1.0 + $s ) ) : ( $l + $s - $l * $s );
-	if ( $v > 0 ) {
-		$m;
-		$sv;
-		$sextant;
-		$fract;
-		$vsf;
-		$mid1;
-		$mid2;
+        $query->set('author', $user_ID );
+    }
+    return $query;
+}
+add_filter('pre_get_posts', 'posts_for_current_author');
 
-		$m       = $l + $l - $v;
-		$sv      = ( $v - $m ) / $v;
-		$h      *= 6.0;
-		$sextant = floor( $h );
-		$fract   = $h - $sextant;
-		$vsf     = $v * $sv * $fract;
-		$mid1    = $m + $vsf;
-		$mid2    = $v - $vsf;
+add_action( 'admin_enqueue_scripts', 'admin_enque_script' );
 
-		switch ( $sextant ) {
-			case 0:
-				$r = $v;
-				$g = $mid1;
-				$b = $m;
-				break;
-			case 1:
-				$r = $mid2;
-				$g = $v;
-				$b = $m;
-				break;
-			case 2:
-				$r = $m;
-				$g = $v;
-				$b = $mid1;
-				break;
-			case 3:
-				$r = $m;
-				$g = $mid2;
-				$b = $v;
-				break;
-			case 4:
-				$r = $mid1;
-				$g = $m;
-				$b = $v;
-				break;
-			case 5:
-				$r = $v;
-				$g = $m;
-				$b = $mid2;
-				break;
-		}
-	}
-	$r = round( $r * 255, 0 );
-	$g = round( $g * 255, 0 );
-	$b = round( $b * 255, 0 );
+add_filter('next_posts_link_attributes', 'posts_link_attributes');
+add_filter('previous_posts_link_attributes', 'posts_link_attributes');
 
-	if ( $to_hex ) {
-
-		$r = ( $r < 15 ) ? '0' . dechex( $r ) : dechex( $r );
-		$g = ( $g < 15 ) ? '0' . dechex( $g ) : dechex( $g );
-		$b = ( $b < 15 ) ? '0' . dechex( $b ) : dechex( $b );
-
-		return "#$r$g$b";
-
-	}
-
-	return "rgb($r, $g, $b)";
+function posts_link_attributes() {
+   return 'class="page-link"';
 }
