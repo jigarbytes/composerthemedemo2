@@ -444,7 +444,6 @@ class cpt {
             register_post_type( $this->post_type_name, $options );
         }
     }
-
     /**
      * Register taxonomy
      *
