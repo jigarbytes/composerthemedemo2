@@ -4,7 +4,7 @@
   - Copy env example to .env using this command  `cp .env.example .env`
   - Open .env File and configuration database and site URL 
   - Set Home URL like this http://example.com/web/
-  - # Generate wp keys got to this url here: https://roots.io/salts.html and copy Env Format and pase in your .env file
+  - Generate wp keys got to this url here: https://roots.io/salts.html and copy Env Format and pase in your .env file
   - Install composer in root directory using this commnd `composer install`
   - Now setup wordpress in your system .
   - Login you wp-admin area using your enterd admin credentials.
