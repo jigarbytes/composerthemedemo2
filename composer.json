@@ -12,9 +12,7 @@
     },
 
   ],
-  "keywords": [
-   "wordpress", "stack", "composer", "vagrant", "wp"
-  ],
+  "keywords": [ "wordpress", "stack", "composer", "vagrant", "wp"],
   "config": {
     "preferred-install": "dist"
   },
